@@ -1,15 +1,39 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
+  keywords?: string;
+  canonical?: string;
 }
 
 const {
-  title = 'adanicode.dev – Full-stack IT Engineering & B2B Solutions',
-  description = 'Angel Daniel Meneses Castilleja – Full-stack IT Engineer. Arquitecturas web robustas, aplicaciones móviles y automatización con IA para negocios reales.',
+  title = "adanicode.dev – Full-stack IT Engineering & B2B Solutions",
+  description = "Angel Daniel Meneses Castilleja – Full-stack IT Engineer. Arquitecturas web robustas, aplicaciones móviles y automatización con IA para negocios reales.",
+  keywords = "desarrollo de software para pymes, desarrollo web empresarial, sistemas punto de venta, automatizacion de procesos, aplicaciones moviles para negocios, infraestructura IT, consultoria tecnologica mexico, full stack engineer",
+  canonical = "https://adanicode.dev/",
 } = Astro.props;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "adanicode.dev",
+  url: canonical,
+  description,
+  areaServed: "Mexico",
+  serviceType: [
+    "Desarrollo de software",
+    "Sistemas punto de venta",
+    "Desarrollo web y movil",
+    "Infraestructura IT y cloud",
+  ],
+  founder: {
+    "@type": "Person",
+    name: "Angel Daniel Meneses Castilleja",
+    jobTitle: "Full-stack IT Engineer",
+  },
+};
 ---
 
 <!doctype html>
@@ -18,6 +42,9 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#05050a" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,7 +57,15 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://adanicode.dev" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="es_MX" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
     <title>{title}</title>
   </head>
   <body style="background-color: #05050a; color: #f0f4ff;">
