@@ -4,7 +4,7 @@ import { guaranteePoints, pricingPlans, testimonials } from '../data/commercial'
 
 export default function Commercial() {
   return (
-    <section id="planes" className="relative py-24 lg:py-32" style={{ background: '#080812' }}>
+    <section id="planes" className="relative py-24 lg:py-32 scroll-mt-24" style={{ background: '#080812' }}>
       <div
         className="absolute top-0 left-0 right-0 h-px"
         style={{

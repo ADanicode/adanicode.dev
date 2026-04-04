@@ -1,5 +1,13 @@
 'use client';
-import { motion, type Variants } from 'framer-motion';
+import { useRef } from 'react';
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type Variants,
+} from 'framer-motion';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -19,8 +27,36 @@ const itemVariants: Variants = {
 };
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const contentY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 70]),
+    { stiffness: 120, damping: 26, mass: 0.22 }
+  );
+  const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.86]);
+
+  const orbOneY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 160]),
+    { stiffness: 90, damping: 22, mass: 0.4 }
+  );
+  const orbTwoY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : -140]),
+    { stiffness: 90, damping: 22, mass: 0.4 }
+  );
+  const orbThreeY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 90]),
+    { stiffness: 90, damping: 22, mass: 0.4 }
+  );
+  const gridOffset = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 24]);
+
   return (
     <section
+      ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ background: '#05050a' }}
     >
@@ -29,30 +65,46 @@ export default function Hero() {
         className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
       >
-        <div
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #06b6d4, transparent 70%)' }}
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, #06b6d4, transparent 70%)',
+            opacity: 0.18,
+            y: orbOneY,
+          }}
         />
-        <div
-          className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full opacity-8 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #a855f7, transparent 70%)' }}
+        <motion.div
+          className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, #a855f7, transparent 70%)',
+            opacity: 0.14,
+            y: orbTwoY,
+          }}
         />
-        <div
-          className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full opacity-5 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #3b82f6, transparent 70%)' }}
+        <motion.div
+          className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, #818cf8, transparent 70%)',
+            opacity: 0.1,
+            y: orbThreeY,
+          }}
         />
         {/* Grid overlay */}
-        <div
+        <motion.div
           className="absolute inset-0 opacity-20"
           style={{
             backgroundImage:
               'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
             backgroundSize: '60px 60px',
+            y: gridOffset,
           }}
         />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8 text-center">
+      <motion.div
+        className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8 text-center"
+        style={{ y: contentY, opacity: contentOpacity }}
+      >
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -86,7 +138,7 @@ export default function Hero() {
             <br className="hidden sm:block" />
             <span
               style={{
-                background: 'linear-gradient(135deg, #06b6d4, #a855f7)',
+                  background: 'linear-gradient(120deg, #22d3ee 0%, #818cf8 55%, #c084fc 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -117,7 +169,7 @@ export default function Hero() {
           >
             <a
               href="#servicios"
-              className="group relative inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-semibold transition-all duration-200 overflow-hidden"
+              className="btn-shimmer group relative inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-semibold transition-all duration-200 overflow-hidden"
               style={{
                 background: 'linear-gradient(135deg, #06b6d4, #3b82f6)',
                 color: '#fff',
@@ -193,8 +245,28 @@ export default function Hero() {
               </span>
             ))}
           </motion.div>
+
+          <motion.div
+            variants={itemVariants}
+            className="mt-10 flex items-center justify-center"
+          >
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2"
+              style={{
+                background: 'rgba(240,244,255,0.04)',
+                border: '1px solid rgba(240,244,255,0.1)',
+                color: 'rgba(240,244,255,0.72)',
+              }}
+            >
+              <span
+                className="h-2 w-2 rounded-full"
+                style={{ background: 'linear-gradient(135deg, #22d3ee, #818cf8)' }}
+              />
+              Estrategia, desarrollo y soporte continuo en un solo partner
+            </div>
+          </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div

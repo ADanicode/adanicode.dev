@@ -51,7 +51,7 @@ export default function Projects() {
   return (
     <section
       id="proyectos"
-      className="relative py-24 lg:py-32"
+      className="relative py-24 lg:py-32 scroll-mt-24"
       style={{ background: '#07070f' }}
     >
       {/* Subtle divider */}

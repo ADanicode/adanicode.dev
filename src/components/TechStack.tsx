@@ -14,7 +14,7 @@ export default function TechStack() {
   return (
     <section
       id="stack"
-      className="relative py-24 lg:py-32"
+      className="relative py-24 lg:py-32 scroll-mt-24"
       style={{ background: '#05050a' }}
     >
       <div

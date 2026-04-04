@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 
 const navLinks = [
   { href: '#servicios', label: 'Servicios' },
@@ -12,11 +12,52 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('#servicios');
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 130,
+    damping: 28,
+    mass: 0.22,
+  });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 20);
+        ticking = false;
+      });
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    onScroll();
+
+    const sections = navLinks
+      .map((link) => document.querySelector(link.href) as HTMLElement | null)
+      .filter((section): section is HTMLElement => section !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${entry.target.id}`);
+          }
+        });
+      },
+      {
+        rootMargin: '-35% 0px -55% 0px',
+        threshold: [0.2, 0.5],
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -35,7 +76,7 @@ export default function Navbar() {
       }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <nav className="flex items-center justify-between h-16">
+        <nav className="grid grid-cols-[auto_1fr_auto] items-center gap-4 h-16">
           {/* Logo */}
           <a
             href="#"
@@ -60,19 +101,26 @@ export default function Navbar() {
           </a>
 
           {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-8">
+          <ul className="hidden lg:flex items-center justify-center gap-6 xl:gap-8 whitespace-nowrap min-w-0">
             {navLinks.map((link) => (
-              <li key={link.href}>
+              <li key={link.href} className="shrink-0">
                 <a
                   href={link.href}
                   className="text-sm font-medium transition-colors duration-200"
-                  style={{ color: 'rgba(240,244,255,0.6)' }}
+                  style={{
+                    color:
+                      activeSection === link.href
+                        ? '#f0f4ff'
+                        : 'rgba(240,244,255,0.6)',
+                  }}
                   onMouseEnter={(e) =>
                     ((e.target as HTMLElement).style.color = '#f0f4ff')
                   }
                   onMouseLeave={(e) =>
                     ((e.target as HTMLElement).style.color =
-                      'rgba(240,244,255,0.6)')
+                      activeSection === link.href
+                        ? '#f0f4ff'
+                        : 'rgba(240,244,255,0.6)')
                   }
                 >
                   {link.label}
@@ -82,7 +130,7 @@ export default function Navbar() {
           </ul>
 
           {/* CTA Button */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3 justify-self-end">
             <a
               href="#contacto"
               className="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
@@ -108,7 +156,7 @@ export default function Navbar() {
 
           {/* Mobile toggle */}
           <button
-            className="md:hidden p-2 rounded-lg"
+            className="lg:hidden p-2 rounded-lg justify-self-end"
             style={{ color: 'rgba(240,244,255,0.7)' }}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
@@ -157,7 +205,12 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className="text-sm font-medium py-2"
-                  style={{ color: 'rgba(240,244,255,0.7)' }}
+                  style={{
+                    color:
+                      activeSection === link.href
+                        ? '#f0f4ff'
+                        : 'rgba(240,244,255,0.7)',
+                  }}
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
@@ -179,6 +232,15 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-px origin-left"
+        style={{
+          scaleX: progress,
+          background:
+            'linear-gradient(90deg, #22d3ee 0%, #818cf8 55%, #c084fc 100%)',
+        }}
+      />
     </motion.header>
   );
 }

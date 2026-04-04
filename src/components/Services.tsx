@@ -2,6 +2,30 @@
 import { motion, type Variants } from 'framer-motion';
 import { services } from '../data/services';
 
+const serviceIcons = {
+  pos: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <line x1="2" y1="10" x2="22" y2="10" />
+      <path d="M6 15h.01M10 15h2.5" />
+    </svg>
+  ),
+  dev: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="16 18 22 12 16 6" />
+      <polyline points="8 6 2 12 8 18" />
+    </svg>
+  ),
+  infra: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="8" rx="2" />
+      <rect x="2" y="14" width="20" height="8" rx="2" />
+      <line x1="6" y1="6" x2="6.01" y2="6" strokeWidth="2.5" />
+      <line x1="6" y1="18" x2="6.01" y2="18" strokeWidth="2.5" />
+    </svg>
+  ),
+};
+
 const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.15 } },
@@ -20,7 +44,7 @@ export default function Services() {
   return (
     <section
       id="servicios"
-      className="relative py-24 lg:py-32"
+      className="relative py-24 lg:py-32 scroll-mt-24"
       style={{ background: '#05050a' }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -109,7 +133,7 @@ export default function Services() {
 
               {/* Icon */}
               <div
-                className="text-3xl mb-6 w-14 h-14 rounded-xl flex items-center justify-center"
+                className="mb-6 w-14 h-14 rounded-xl flex items-center justify-center"
                 style={{
                   background:
                     index === 0
@@ -123,9 +147,11 @@ export default function Services() {
                       : index === 1
                       ? '1px solid rgba(168,85,247,0.2)'
                       : '1px solid rgba(79,143,255,0.2)',
+                  color:
+                    index === 0 ? '#06b6d4' : index === 1 ? '#a855f7' : '#4f8fff',
                 }}
               >
-                {service.icon}
+                {serviceIcons[service.icon as keyof typeof serviceIcons]}
               </div>
 
               {/* Content */}

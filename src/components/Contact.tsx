@@ -72,7 +72,7 @@ export default function Contact() {
   return (
     <section
       id="contacto"
-      className="relative py-24 lg:py-32"
+      className="relative py-24 lg:py-32 scroll-mt-24"
       style={{ background: '#07070f' }}
     >
       <div
@@ -161,7 +161,10 @@ export default function Contact() {
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                     style={{ background: 'rgba(6,182,212,0.1)' }}
                   >
-                    ✉️
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="m2 7 10 7 10-7" />
+                      </svg>
                   </span>
                   {personalInfo.email}
                 </a>
@@ -205,7 +208,10 @@ export default function Contact() {
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                     style={{ background: 'rgba(255,255,255,0.04)' }}
                   >
-                    📍
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(240,244,255,0.45)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
                   </span>
                   {personalInfo.location}
                 </div>

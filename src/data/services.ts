@@ -10,7 +10,7 @@ export interface Service {
 export const services: Service[] = [
   {
     id: "pos",
-    icon: "🏪",
+    icon: "pos",
     title: "Sistemas Punto de Venta",
     description:
       "Soluciones de POS personalizadas para negocios locales y cadenas, con gestión de inventario, reportes y multi-sucursal. Modelo de renta mensual sin inversión inicial.",
@@ -25,7 +25,7 @@ export const services: Service[] = [
   },
   {
     id: "dev",
-    icon: "⚡",
+    icon: "dev",
     title: "Desarrollo Multiplataforma y Web",
     description:
       "Aplicaciones web y móviles a medida con arquitecturas escalables. Desde MVPs hasta plataformas empresariales con stack moderno y buenas prácticas de ingeniería.",
@@ -40,7 +40,7 @@ export const services: Service[] = [
   },
   {
     id: "infra",
-    icon: "🖥️",
+    icon: "infra",
     title: "Infraestructura IT y Cloud",
     description:
       "Administración de servidores Windows/Linux, virtualización y servicios en la nube. Mantenimiento preventivo y correctivo con 99% de uptime garantizado.",
