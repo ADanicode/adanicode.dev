@@ -35,7 +35,7 @@ export default function Hero() {
   });
 
   const contentY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 70]),
+    useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : -44]),
     { stiffness: 120, damping: 26, mass: 0.22 }
   );
   const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.86]);
@@ -57,7 +57,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 lg:pt-28"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 lg:pt-28 pb-16 lg:pb-20"
       style={{ background: '#05050a' }}
     >
       {/* Ambient glow blobs */}

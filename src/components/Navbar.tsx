@@ -83,15 +83,23 @@ export default function Navbar() {
             className="flex items-center gap-2 group"
             aria-label="adanicode.dev home"
           >
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
+            <span
+              className="w-8 h-8 rounded-lg p-0.5 flex items-center justify-center"
               style={{
-                background: 'linear-gradient(135deg, #06b6d4, #a855f7)',
-                color: '#fff',
+                background: 'rgba(240,244,255,0.06)',
+                border: '1px solid rgba(240,244,255,0.12)',
               }}
             >
-              A
-            </div>
+              <img
+                src="/favicon.svg"
+                alt="adanicode logo"
+                width="28"
+                height="28"
+                className="rounded-md"
+                loading="eager"
+                decoding="async"
+              />
+            </span>
             <span
               className="font-semibold text-sm tracking-tight"
               style={{ color: '#f0f4ff' }}
