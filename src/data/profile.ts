@@ -41,9 +41,10 @@ export const personalInfo: PersonalInfo = {
   name: "Angel Daniel Meneses Castilleja",
   role: "Full-stack IT Engineer",
   email: "meneses.daniel.personal@gmail.com",
-  phone: "729-759-858",
+  phone: "729-759-8588",
   github: "https://github.com/ADanicode",
   linkedin: "https://linkedin.com/in/a-d-m-c",
   location: "Pachuca, Hgo., México",
-  whatsapp: "https://wa.me/52729759858",
+  whatsapp:
+    "https://wa.me/527297598588?text=Hola%20Angel%2C%20quiero%20cotizar%20una%20solucion%20para%20mi%20negocio.",
 };
