@@ -13,6 +13,18 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('#servicios');
+
+  const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setMobileOpen(false);
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 150);
+  };
+
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, {
     stiffness: 130,
@@ -212,6 +224,7 @@ export default function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
+                  onClick={(e) => handleMobileNavClick(e, link.href)}
                   className="text-sm font-medium py-2"
                   style={{
                     color:
@@ -219,20 +232,19 @@ export default function Navbar() {
                         ? '#f0f4ff'
                         : 'rgba(240,244,255,0.7)',
                   }}
-                  onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
                 </a>
               ))}
               <a
                 href="#contacto"
+                onClick={(e) => handleMobileNavClick(e, '#contacto')}
                 className="px-4 py-2 rounded-lg text-sm font-semibold text-center"
                 style={{
                   background: 'rgba(6,182,212,0.1)',
                   border: '1px solid rgba(6,182,212,0.3)',
                   color: '#06b6d4',
                 }}
-                onClick={() => setMobileOpen(false)}
               >
                 Hablemos
               </a>
